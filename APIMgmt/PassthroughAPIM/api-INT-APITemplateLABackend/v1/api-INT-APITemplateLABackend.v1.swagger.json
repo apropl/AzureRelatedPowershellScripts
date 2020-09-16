@@ -1,0 +1,59 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "REPLACED_WITH_apimNameUpperCase",
+    "version": "v1",
+    "description": "Azure Logic App."
+  },
+  "host": "WillBeReplacedOnDeploy",
+  "basePath": "/WillBeReplacedOnDeploy",
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    },
+    "apiKeyQuery": {
+      "type": "apiKey",
+      "name": "subscription-key",
+      "in": "query"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "paths": {
+    "/": {
+      "post": {
+        "description": "Passthrough API",
+        "operationId": "passthrough",
+        "summary": "passthrough",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {},
+            "description": "RequestPayload"
+          }
+        ],
+        "consumes": [
+          "application/soap+xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "The Logic App Response."
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}

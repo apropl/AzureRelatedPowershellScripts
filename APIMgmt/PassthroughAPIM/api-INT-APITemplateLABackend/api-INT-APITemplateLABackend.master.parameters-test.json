@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "service_REPLACED_WITH_APIM_INSTANCE_name": {
+      "value": "REPLACED_WITH_APIM_INSTANCE"
+    },
+    "api_REPLACED_WITH_apimNameLowerCase_name": {
+      "value": "REPLACED_WITH_apimNameLowerCase"
+    },
+    "REPLACED_WITH_apimNameLowerCase_serviceUrl": {
+      "value": "https://prod-00-integrationenvi-uxrndw43vy6ao.westeurope.environments.microsoftazurelogicapps.net/workflows/f578439e8bc44be6aa1d0e56a4e4a54d/triggers"
+    },
+    "REPLACED_WITH_apimNameLowerCase_apiRevision": {
+      "value": "1"
+    },
+    "REPLACED_WITH_apimNameLowerCase_apiVersion": {
+      "value": "v1"
+    },
+    "REPLACED_WITH_apimNameLowerCase_isCurrent": {
+      "value": true
+    },
+    "LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_resourceGroup": {
+      "value": "REPLACED_WITH_LA_RG"
+    },
+    "LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_logicAppName": {
+      "value": "REPLACED_WITH_LA_NAME_FULL"
+    }
+  }
+}
