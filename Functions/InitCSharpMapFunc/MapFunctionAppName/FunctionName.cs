@@ -14,7 +14,7 @@ using System.Xml.Linq;
 
 namespace Function_App_Name_NS
 {
-    public static class Transform
+    public static class Function_Name
     {
         [FunctionName("Function_Name")]
         public static async Task<HttpResponseMessage> Run(

@@ -5,7 +5,8 @@ $outputDirectory = "C:\Repos\EMP-Employee\Functions"
 
 #Function App information
 $functionAppName = "INT-Employee-IN-P-MapEmployeeAllocationIVUSJOToSPBSJson"
-$functionName = "MapEmployeeAllocation"
+#Default functionName = Transform. Change this if you wish
+$functionName = "Transform"
 
 #Azure Information
 $businessobject = "Employee"

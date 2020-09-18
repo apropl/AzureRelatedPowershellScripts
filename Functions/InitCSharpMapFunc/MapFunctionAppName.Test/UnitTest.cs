@@ -63,8 +63,8 @@ namespace Function_App_Name_NS.Test
                 InvocationId = Guid.NewGuid()
             };
 			
-			//Run the transformation by calling "Transform" which in this case is the function name
-            var response = await Transform.Run(request, logger, context);
+			//Run the transformation by calling "Function_Name" which in this case is the function name
+            var response = await Function_Name.Run(request, logger, context);
 
             if (response == null)
             {
