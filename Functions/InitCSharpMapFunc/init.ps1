@@ -149,6 +149,7 @@ foreach($File in $FunctionPath){
 
     (Get-Content $File.Fullname).Replace('Function_App_Name_NS', $functionAppName.Replace('-','_')) | Set-Content $File.FullName
     (Get-Content $File.Fullname).Replace('Function_App_Name', $functionAppName) | Set-Content $File.FullName
+    (Get-Content $File.Fullname).Replace('Function_Name', $functionName) | Set-Content $File.FullName
 
 }
 
