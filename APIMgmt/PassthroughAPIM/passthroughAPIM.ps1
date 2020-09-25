@@ -1,11 +1,12 @@
 ﻿##Config BELOW!
+#################################################################################
 
 #Complete output directory
-$outputDirectory = "C:\Repos\EMP-Employee\API\Internal"
+$outputDirectory = "C:\Repos\VEA-VehicleAllocation\API\Internal"
 
 #API information
 $Internal = $true
-$apiName = "APIName"
+$apiName = "INT-Vehicle-IN-E-VehicleAllocation-IVUSJO"
 #example outbound
 #outbound/system/integration
 #example inbound
@@ -13,21 +14,26 @@ $apiName = "APIName"
 $apiBasePath = "outbound/ivusjo/EmployeeAllocationConfirmation"
 
 
+## SPECIFY ONE OF THE BELOW 3 Logic app, Function app or URL backend ##
+
+###################### 1 - LOGIC APP ######################
 #Specify if logic app backend
 $logicAppBackend = $false
 
-#Logic App
+#Logic App ( Complete name/rg to DEV )
 $logicAppName = "LogicAppName"
 $logicAppResourceGroup = "ResourceGroupName"
 
+###################### 2 - FUNCTION APP ###################
 #Specify if function app backend
 $functionAppBackend = $false
 
-#Function App
-$functionAppName = "FunctionAppName"
-$functionAppResourceGroup = "ResourceGroupName"
-$functionAppPath = "Path"
+#Function App ( Complete name/rg to DEV )
+$functionAppName = "int-common-messagerouter-dev-fa"
+$functionAppResourceGroup = "NordIntegration-dev-adp-rg"
+$functionAppPath = "/api/servicebus/topic/sendmsg"
 
+###################### 3 - URL BACKEND ###################
 #If no logic app or function app backend. Set service URL
 $backendServiceURLdev = "https://backendurl.dev"
 $backendServiceURLtest = "https://backendurl.test"
@@ -35,7 +41,7 @@ $backendServiceURLqa = "https://backendurl.qa"
 $backendServiceURLprod = "https://backendurl.prod"
 
 ##Config ABOVE!
-
+#################################################################################
 
 #param(
 #[string]$outputDirectory = "C:\Repos\",
@@ -153,7 +159,20 @@ if (!(Test-Path $workingDirectory\$zipFileName)) {
           New-Item -ItemType Directory -Force -Path $workingDirectory
     }
 
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+add-type @"
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
+public class TrustAllCertsPolicy : ICertificatePolicy {
+    public bool CheckValidationResult(
+        ServicePoint srvPoint, X509Certificate certificate,
+        WebRequest request, int certificateProblem) {
+        return true;
+    }
+}
+"@
+$AllProtocols = [System.Net.SecurityProtocolType]'Ssl3,Tls,Tls11,Tls12'
+[System.Net.ServicePointManager]::SecurityProtocol = $AllProtocols
+[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
     Invoke-WebRequest -Uri $url -OutFile $workingDirectory\$zipFileName
 
     Write-Host "Downloading $zipFileName - End" -ForegroundColor Green # -BackgroundColor white

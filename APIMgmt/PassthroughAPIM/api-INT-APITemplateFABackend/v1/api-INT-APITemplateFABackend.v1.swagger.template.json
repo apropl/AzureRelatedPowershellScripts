@@ -29,7 +29,6 @@
       "name": "[concat(parameters('service_REPLACED_WITH_APIM_INSTANCE_name'), '/' ,parameters('api_REPLACED_WITH_apimNameLowerCase_name'))]",
       "apiVersion": "2018-06-01-preview",
       "properties": {
-        "serviceUrl": null,
         "path": "REPLACED_WITH_apimNameLowerCase",
         "protocols": [
           "https"
@@ -44,7 +43,7 @@
           "name": "[concat(parameters('service_REPLACED_WITH_APIM_INSTANCE_name'), '/', parameters('api_REPLACED_WITH_apimNameLowerCase_name'), '/', 'passthrough', '/', 'policy')]",
           "apiVersion": "2019-01-01",
           "properties": {
-            "value": "[concat(parameters('repoBaseUrl'), '/api-REPLACED_WITH_apimNameUpperCase/v1/REPLACED_WITH_apimNameUpperCase.v1.passthrough.policy.xml', parameters('_artifactsLocationSasToken'))]",
+            "value": "[concat(parameters('repoBaseUrl'), '/api-REPLACED_WITH_apimNameUpperCase/v1/api-REPLACED_WITH_apimNameUpperCase.v1.passthrough.policy.xml', parameters('_artifactsLocationSasToken'))]",
             "format": "xml-link"
           },
           "resources": [],

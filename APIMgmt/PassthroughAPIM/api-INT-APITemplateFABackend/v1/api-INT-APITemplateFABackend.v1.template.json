@@ -22,11 +22,11 @@
       "type": "bool",
       "defaultValue": true
     },
-    "FunctionApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup": {
+    "REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup": {
       "type": "string",
       "defaultValue": "REPLACED_WITH_RESOURCE_RG"
     },
-    "FunctionApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_siteName": {
+    "REPLACED_WITH_RESOURCE_NAME_PARTIAL_siteName": {
       "type": "string",
       "defaultValue": "REPLACED_WITH_RESOURCE_NAME_FULL"
     }
@@ -71,10 +71,10 @@
       "apiVersion": "2019-01-01",
       "properties": {
         "title": null,
-        "description": "[parameters('FunctionApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_siteName')]",
-        "url": "[concat('https://',toLower(parameters('FunctionApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_siteName')),'.azurewebsites.net/api')]",
+        "description": "[parameters('REPLACED_WITH_RESOURCE_NAME_PARTIAL_siteName')]",
+        "url": "[concat('https://',toLower(parameters('REPLACED_WITH_RESOURCE_NAME_PARTIAL_siteName')),'.azurewebsites.net/api')]",
         "protocol": "http",
-        "resourceId": "[concat('https://management.azure.com/','subscriptions/',subscription().subscriptionId,'/resourceGroups/',parameters('FunctionApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup'),'/providers/Microsoft.Web/sites/',parameters('FunctionApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_siteName'))]",
+        "resourceId": "[concat('https://management.azure.com/','subscriptions/',subscription().subscriptionId,'/resourceGroups/',parameters('REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup'),'/providers/Microsoft.Web/sites/',parameters('REPLACED_WITH_RESOURCE_NAME_PARTIAL_siteName'))]",
         "credentials": {
           "header": {
             "x-functions-key": [
@@ -87,13 +87,13 @@
       "dependsOn": []
     },
     {
-      "comments": "Generated for resource /subscriptions/6c0c26ce-999b-4550-b46d-8084fc33f398/resourceGroups/apimgmt-spoke-dev-adp-rg/providers/Microsoft.ApiManagement/service/adp-apimgmt-se-dev/properties/FunctionApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_siteName-key",
+      "comments": "Generated for resource /subscriptions/6c0c26ce-999b-4550-b46d-8084fc33f398/resourceGroups/apimgmt-spoke-dev-adp-rg/providers/Microsoft.ApiManagement/service/adp-apimgmt-se-dev/properties/REPLACED_WITH_RESOURCE_NAME_PARTIAL_siteName-key",
       "type": "Microsoft.ApiManagement/service/properties",
       "name": "[concat(parameters('service_REPLACED_WITH_APIM_INSTANCE_name'), '/', 'REPLACED_WITH_RESOURCE_NAME_FULL-key')]",
       "apiVersion": "2019-01-01",
       "properties": {
         "displayName": "REPLACED_WITH_RESOURCE_NAME_FULL-key",
-        "value": "[listkeys(concat(resourceId(parameters('FunctionApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup'), 'Microsoft.Web/sites', parameters('FunctionApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_siteName')), '/host/default'), '2018-11-01').functionKeys.default]",
+        "value": "[listkeys(concat(resourceId(parameters('REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup'), 'Microsoft.Web/sites', parameters('REPLACED_WITH_RESOURCE_NAME_PARTIAL_siteName')), '/host/default'), '2018-11-01').functionKeys.default]",
         "tags": [
           "key",
           "function",

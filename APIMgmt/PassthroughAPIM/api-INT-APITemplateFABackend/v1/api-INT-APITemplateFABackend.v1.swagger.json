@@ -5,8 +5,8 @@
     "version": "v1",
     "description": "Function App"
   },
-  "host": "WillBeReplacedOnDeploy",
-  "basePath": "/WillBeReplacedOnDeploy",
+  "host": "AlloperationsBackendURL",
+  "basePath": "/IsNotUsed",
   "schemes": [
     "https"
   ],
@@ -39,9 +39,9 @@
     }
   ],
   "paths": {
-    "REPLACED_WITH_FunctionPath": {
+    "/": {
       "post": {
-		"description": "Passthrough API"
+		"description": "Passthrough API",
         "operationId": "passthrough",
         "summary": "passthrough",
         "responses": {

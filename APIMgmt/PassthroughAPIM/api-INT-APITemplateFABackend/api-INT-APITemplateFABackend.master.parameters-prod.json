@@ -2,27 +2,26 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "service_adp-apimgmt-se-dev_name": {
-      "value": "adp-apimgmt-se-prod"
+    "service_REPLACED_WITH_APIM_INSTANCE_name": {
+      "value": "REPLACED_WITH_APIM_INSTANCE"
     },
-    "api_int-common-messagerouter-prod-fa-TEST_name": {
-      "value": "int-common-messagerouter-prod-fa-TEST"
+    "api_REPLACED_WITH_apimNameLowerCase_name": {
+      "value": "REPLACED_WITH_apimNameLowerCase"
     },
-    "int-common-messagerouter-prod-fa-TEST_apiRevision": {
+    "REPLACED_WITH_apimNameLowerCase_apiRevision": {
       "value": "1"
     },
-    "int-common-messagerouter-prod-fa-TEST_apiVersion": {
+    "REPLACED_WITH_apimNameLowerCase_apiVersion": {
       "value": "v1"
     },
-    "int-common-messagerouter-prod-fa-TEST_isCurrent": {
+    "REPLACED_WITH_apimNameLowerCase_isCurrent": {
       "value": true
     },
-    "int-common-messagerouter-prod-fa_resourceGroup": {
-      "value": "NordIntegration-prod-adp-rg"
+    "REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup": {
+      "value": "REPLACED_WITH_RESOURCE_RG"
     },
-    "int-common-messagerouter-prod-fa_siteName": {
-      "value": "INT-Common-MessageRouter-prod-fa"
+    "REPLACED_WITH_RESOURCE_NAME_PARTIAL_siteName": {
+      "value": "REPLACED_WITH_RESOURCE_NAME_FULL"
     }
   }
 }
-
