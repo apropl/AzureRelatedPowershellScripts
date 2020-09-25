@@ -20,7 +20,15 @@ $logicAppBackend = $false
 $logicAppName = "LogicAppName"
 $logicAppResourceGroup = "ResourceGroupName"
 
-#If no logic app backend. Set service URL
+#Specify if function app backend
+$functionAppBackend = $false
+
+#Function App
+$functionAppName = "FunctionAppName"
+$functionAppResourceGroup = "ResourceGroupName"
+$functionAppPath = "Path"
+
+#If no logic app or function app backend. Set service URL
 $backendServiceURLdev = "https://backendurl.dev"
 $backendServiceURLtest = "https://backendurl.test"
 $backendServiceURLqa = "https://backendurl.qa"
@@ -61,7 +69,28 @@ if($logicAppBackend)
 {
     if($logicAppName -and $logicAppResourceGroup)
     {        
+        $resourceAppName = $logicAppName
+        $resourceResourceGroup = $logicAppResourceGroup
+
+        Write-Host "Logic App backend selected"
         $zipFileName = 'api-INT-APITemplateLABackend.zip'
+    }
+    else
+    {
+        Write-Host "Terminating - Need to specify both logic app name and resource group." -ForegroundColor Red # -BackgroundColor white
+        exit
+    }
+}
+elseif ($functionAppBackend)
+{
+    if($functionAppName -and $functionAppResourceGroup -and $functionAppPath)
+    {        
+        $resourceAppName = $functionAppName
+        $resourceResourceGroup = $functionAppResourceGroup
+        $resourcePath = $functionAppPath
+
+        $zipFileName = 'api-INT-APITemplateFABackend.zip'
+        Write-Host "Function App backend selected"
     }
     else
     {
@@ -71,6 +100,7 @@ if($logicAppBackend)
 }
 elseif ($backendServiceURL)
 {
+    Write-Host "URL backend selected"
     $zipFileName = 'api-INT-APITemplate.zip'
 }
 else
@@ -191,14 +221,17 @@ foreach($File in $APIPath){
     #Replace path APIin swagger and template
     (Get-Content $File.Fullname).Replace('REPLACED_WITH_API_PATH', $apiBasePath) | Set-Content $File.FullName
 
-    #Replace Logic app parameter name (first 25 characters)
-    (Get-Content $File.Fullname).Replace('REPLACED_WITH_LA_NAME_PARTIAL', $logicAppName[0..24] -join "")  | Set-Content $File.FullName
+    #Replace resource parameter name (first 25 characters)
+    (Get-Content $File.Fullname).Replace('REPLACED_WITH_RESOURCE_NAME_PARTIAL', $resourceAppName[0..24] -join "")  | Set-Content $File.FullName
 
-    #Replace Logic app name
-    (Get-Content $File.Fullname).Replace('REPLACED_WITH_LA_NAME_FULL', $logicAppName)  | Set-Content $File.FullName
+    #Replace resource name
+    (Get-Content $File.Fullname).Replace('REPLACED_WITH_RESOURCE_NAME_FULL', $resourceAppName)  | Set-Content $File.FullName
 
-    #Replace Logic app resource group
-    (Get-Content $File.Fullname).Replace('REPLACED_WITH_LA_RG', $logicAppResourceGroup)  | Set-Content $File.FullName
+    #Replace resource resource group
+    (Get-Content $File.Fullname).Replace('REPLACED_WITH_RESOURCE_RG', $resourceResourceGroup)  | Set-Content $File.FullName
+
+    #Replace resource resource group
+    (Get-Content $File.Fullname).Replace('REPLACED_WITH_RESOURCE_PATH', $resourcePath)  | Set-Content $File.FullName
 
     #Replace versionset guid
     (Get-Content $File.Fullname).Replace('REPLACED_WITH_versionsetGuid', $versionsetGuid)  | Set-Content $File.FullName

@@ -1,0 +1,135 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "service_adp-apimgmt-se-dev_name": {
+      "type": "string",
+      "defaultValue": "adp-apimgmt-se-dev"
+    },
+    "api_int-common-messagerouter-dev-fa-TEST_name": {
+      "type": "string",
+      "defaultValue": "int-common-messagerouter-dev-fa-TEST"
+    },
+    "repoBaseUrl": {
+      "type": "string",
+      "metadata": {
+        "description": "Base URL of the repository"
+      }
+    },
+    "_artifactsLocationSasToken": {
+      "type": "securestring",
+      "defaultValue": ""
+    },
+    "int-common-messagerouter-dev-fa-TEST_apiRevision": {
+      "type": "string",
+      "defaultValue": "1"
+    },
+    "int-common-messagerouter-dev-fa-TEST_apiVersion": {
+      "type": "string",
+      "defaultValue": "v1"
+    },
+    "int-common-messagerouter-dev-fa-TEST_isCurrent": {
+      "type": "bool",
+      "defaultValue": true
+    },
+    "int-common-messagerouter-dev-fa_resourceGroup": {
+      "type": "string",
+      "defaultValue": "NordIntegration-dev-adp-rg"
+    },
+    "int-common-messagerouter-dev-fa_siteName": {
+      "type": "string",
+      "defaultValue": "INT-Common-MessageRouter-dev-fa"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "apiVersion": "2017-05-10",
+      "name": "api-INT-Common-MessageRouter-dev-fa_TEST.v1.swagger.template1169",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('repoBaseUrl'), '/api-INT-Common-MessageRouter-dev-fa_TEST/v1/api-INT-Common-MessageRouter-dev-fa_TEST.v1.swagger.template.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "service_adp-apimgmt-se-dev_name": {
+            "value": "[parameters('service_adp-apimgmt-se-dev_name')]"
+          },
+          "api_int-common-messagerouter-dev-fa-TEST_name": {
+            "value": "[parameters('api_int-common-messagerouter-dev-fa-TEST_name')]"
+          },
+          "repoBaseUrl": {
+            "value": "[parameters('repoBaseUrl')]"
+          },
+          "_artifactsLocationSasToken": {
+            "value": "[parameters('_artifactsLocationSasToken')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'api-INT-Common-MessageRouter-dev-fa_TEST.version-set.templat1021')]",
+        "[resourceId('Microsoft.Resources/deployments', 'api-INT-Common-MessageRouter-dev-fa_TEST.v1.template.json')]",
+        "[resourceId('Microsoft.Resources/deployments', 'api-INT-Common-MessageRouter-dev-fa_TEST.v1.template.json')]"
+      ]
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "api-INT-Common-MessageRouter-dev-fa_TEST.v1.template.json",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('repoBaseUrl'), '/api-INT-Common-MessageRouter-dev-fa_TEST/v1/api-INT-Common-MessageRouter-dev-fa_TEST.v1.template.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "service_adp-apimgmt-se-dev_name": {
+            "value": "[parameters('service_adp-apimgmt-se-dev_name')]"
+          },
+          "api_int-common-messagerouter-dev-fa-TEST_name": {
+            "value": "[parameters('api_int-common-messagerouter-dev-fa-TEST_name')]"
+          },
+          "int-common-messagerouter-dev-fa-TEST_apiRevision": {
+            "value": "[parameters('int-common-messagerouter-dev-fa-TEST_apiRevision')]"
+          },
+          "int-common-messagerouter-dev-fa-TEST_apiVersion": {
+            "value": "[parameters('int-common-messagerouter-dev-fa-TEST_apiVersion')]"
+          },
+          "int-common-messagerouter-dev-fa-TEST_isCurrent": {
+            "value": "[parameters('int-common-messagerouter-dev-fa-TEST_isCurrent')]"
+          },
+          "int-common-messagerouter-dev-fa_resourceGroup": {
+            "value": "[parameters('int-common-messagerouter-dev-fa_resourceGroup')]"
+          },
+          "int-common-messagerouter-dev-fa_siteName": {
+            "value": "[parameters('int-common-messagerouter-dev-fa_siteName')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'api-INT-Common-MessageRouter-dev-fa_TEST.version-set.templat1021')]"
+      ]
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "api-INT-Common-MessageRouter-dev-fa_TEST.version-set.templat1021",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('repoBaseUrl'), '/api-INT-Common-MessageRouter-dev-fa_TEST/api-INT-Common-MessageRouter-dev-fa_TEST.version-set.template.json', parameters('_artifactsLocationSasToken'))]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "service_adp-apimgmt-se-dev_name": {
+            "value": "[parameters('service_adp-apimgmt-se-dev_name')]"
+          }
+        }
+      },
+      "dependsOn": []
+    }
+  ],
+  "outputs": {}
+}

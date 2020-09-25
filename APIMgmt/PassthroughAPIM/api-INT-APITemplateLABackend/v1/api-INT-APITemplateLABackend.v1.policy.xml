@@ -1,7 +1,7 @@
 <policies>
   <inbound>
     <base />
-    <set-backend-service id="apim-generated-policy" backend-id="LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_e057e5cfb6b98536c0a4e0ddaa44eb4e" />
+    <set-backend-service id="apim-generated-policy" backend-id="LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_e057e5cfb6b98536c0a4e0ddaa44eb4e" />
   </inbound>
   <backend>
     <base />

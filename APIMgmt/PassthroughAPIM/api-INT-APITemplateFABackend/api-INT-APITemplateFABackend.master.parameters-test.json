@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "service_adp-apimgmt-se-dev_name": {
+      "value": "adp-apimgmt-se-test"
+    },
+    "api_int-common-messagerouter-test-fa-TEST_name": {
+      "value": "int-common-messagerouter-test-fa-TEST"
+    },
+    "int-common-messagerouter-test-fa-TEST_apiRevision": {
+      "value": "1"
+    },
+    "int-common-messagerouter-test-fa-TEST_apiVersion": {
+      "value": "v1"
+    },
+    "int-common-messagerouter-test-fa-TEST_isCurrent": {
+      "value": true
+    },
+    "int-common-messagerouter-test-fa_resourceGroup": {
+      "value": "NordIntegration-test-adp-rg"
+    },
+    "int-common-messagerouter-test-fa_siteName": {
+      "value": "INT-Common-MessageRouter-test-fa"
+    }
+  }
+}
+

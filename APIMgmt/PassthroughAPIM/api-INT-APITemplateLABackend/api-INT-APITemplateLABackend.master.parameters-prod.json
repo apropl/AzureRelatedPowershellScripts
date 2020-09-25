@@ -20,11 +20,11 @@
     "REPLACED_WITH_apimNameLowerCase_isCurrent": {
       "value": true
     },
-    "LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_resourceGroup": {
-      "value": "REPLACED_WITH_LA_RG"
+    "LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup": {
+      "value": "REPLACED_WITH_RESOURCE_RG"
     },
-    "LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_logicAppName": {
-      "value": "REPLACED_WITH_LA_NAME_FULL"
+    "LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_logicAppName": {
+      "value": "REPLACED_WITH_RESOURCE_NAME_FULL"
     }
   }
 }

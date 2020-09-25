@@ -25,13 +25,13 @@
       "type": "bool",
       "defaultValue": true
     },
-    "LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_resourceGroup": {
+    "LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup": {
       "type": "string",
-      "defaultValue": "REPLACED_WITH_LA_RG"
+      "defaultValue": "REPLACED_WITH_RESOURCE_RG"
     },
-    "LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_logicAppName": {
+    "LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_logicAppName": {
       "type": "string",
-      "defaultValue": "REPLACED_WITH_LA_NAME_FULL"
+      "defaultValue": "REPLACED_WITH_RESOURCE_NAME_FULL"
     }
   },
   "variables": {},
@@ -69,16 +69,16 @@
       ]
     },
     {
-      "comments": "Generated for resource /subscriptions/6c0c26ce-999b-4550-b46d-8084fc33f398/resourceGroups/apimgmt-spoke-dev-adp-rg/providers/Microsoft.ApiManagement/service/REPLACED_WITH_APIM_INSTANCE/backends/LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_e057e5cfb6b98536c0a4e0ddaa44eb4e",
+      "comments": "Generated for resource /subscriptions/6c0c26ce-999b-4550-b46d-8084fc33f398/resourceGroups/apimgmt-spoke-dev-adp-rg/providers/Microsoft.ApiManagement/service/REPLACED_WITH_APIM_INSTANCE/backends/LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_e057e5cfb6b98536c0a4e0ddaa44eb4e",
       "type": "Microsoft.ApiManagement/service/backends",
-      "name": "[concat(parameters('service_REPLACED_WITH_APIM_INSTANCE_name'), '/' ,'LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_e057e5cfb6b98536c0a4e0ddaa44eb4e')]",
+      "name": "[concat(parameters('service_REPLACED_WITH_APIM_INSTANCE_name'), '/' ,'LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_e057e5cfb6b98536c0a4e0ddaa44eb4e')]",
       "apiVersion": "2019-01-01",
       "properties": {
         "title": null,
         "description": "REPLACED_WITH_apimNameUpperCase",
-        "url": "[substring(listCallbackUrl(resourceId(parameters('LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_resourceGroup'), 'Microsoft.Logic/workflows/triggers', parameters('LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_logicAppName'), 'manual'), '2017-07-01').basePath,0,add(10,indexOf(listCallbackUrl(resourceId(parameters('LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_resourceGroup'), 'Microsoft.Logic/workflows/triggers', parameters('LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_logicAppName'), 'manual'), '2017-07-01').basePath,'/triggers/')))]",
+        "url": "[substring(listCallbackUrl(resourceId(parameters('LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup'), 'Microsoft.Logic/workflows/triggers', parameters('LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_logicAppName'), 'manual'), '2017-07-01').basePath,0,add(10,indexOf(listCallbackUrl(resourceId(parameters('LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup'), 'Microsoft.Logic/workflows/triggers', parameters('LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_logicAppName'), 'manual'), '2017-07-01').basePath,'/triggers/')))]",
         "protocol": "http",
-        "resourceId": "[concat('https://management.azure.com/','subscriptions/',subscription().subscriptionId,'/resourceGroups/',parameters('LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_resourceGroup'),'/providers/Microsoft.Logic/workflows/',parameters('LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_logicAppName'))]"
+        "resourceId": "[concat('https://management.azure.com/','subscriptions/',subscription().subscriptionId,'/resourceGroups/',parameters('LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup'),'/providers/Microsoft.Logic/workflows/',parameters('LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_logicAppName'))]"
       },
       "resources": [],
       "dependsOn": []
@@ -90,7 +90,7 @@
       "apiVersion": "2019-01-01",
       "properties": {
         "displayName": "REPLACED_WITH_apimNameLowerCase_manual-invoke_REPLACED_WITH_backendIdGuid",
-        "value": "[listCallbackUrl(resourceId(parameters('LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_resourceGroup'), 'Microsoft.Logic/workflows/triggers', parameters('LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_logicAppName'), 'manual'), '2017-07-01').queries.sig]",
+        "value": "[listCallbackUrl(resourceId(parameters('LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup'), 'Microsoft.Logic/workflows/triggers', parameters('LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_logicAppName'), 'manual'), '2017-07-01').queries.sig]",
         "tags": [],
         "secret": true
       },

@@ -35,13 +35,13 @@
       "type": "bool",
       "defaultValue": true
     },
-    "LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_resourceGroup": {
+    "LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup": {
       "type": "string",
-      "defaultValue": "REPLACED_WITH_LA_RG"
+      "defaultValue": "REPLACED_WITH_RESOURCE_RG"
     },
-    "LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_logicAppName": {
+    "LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_logicAppName": {
       "type": "string",
-      "defaultValue": "REPLACED_WITH_LA_NAME_FULL"
+      "defaultValue": "REPLACED_WITH_RESOURCE_NAME_FULL"
     }
   },
   "variables": {},
@@ -108,11 +108,11 @@
           "REPLACED_WITH_apimNameLowerCase_isCurrent": {
             "value": "[parameters('REPLACED_WITH_apimNameLowerCase_isCurrent')]"
           },
-          "LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_resourceGroup": {
-            "value": "[parameters('LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_resourceGroup')]"
+          "LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup": {
+            "value": "[parameters('LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup')]"
           },
-          "LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_logicAppName": {
-            "value": "[parameters('LogicApp_REPLACED_WITH_LA_NAME_PARTIAL_logicAppName')]"
+          "LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_logicAppName": {
+            "value": "[parameters('LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_logicAppName')]"
           }
         }
       },
