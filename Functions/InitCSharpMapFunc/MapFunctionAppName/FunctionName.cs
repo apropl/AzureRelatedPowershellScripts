@@ -25,6 +25,16 @@ namespace Function_App_Name_NS
 
             //Get query parameters
             string name = req.Query["name"];
+			
+			//Get headers with error handling
+			var headers = req.Headers;
+			if(!headers.TryGetValue("apiKey", out var apiKeys) ||
+			   !headers.TryGetValue("domain", out var domains))
+			{
+				return req.CreateResponse(HttpStatusCode.Forbidden);
+			}
+			var apiKey = apiKeys.First();
+			var domain = domains.First();
 
             //Deserialize xml stream into class
             //**********************************************************************************
