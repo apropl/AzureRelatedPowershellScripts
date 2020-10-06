@@ -2,16 +2,18 @@
 #################################################################################
 
 #Complete output directory
-$outputDirectory = "C:\Repos\VEA-VehicleAllocation\API\Internal"
+$outputDirectory = "C:\Repos\Report\API\Internal"
 
 #API information
 $Internal = $true
-$apiName = "INT-Vehicle-IN-E-VehicleAllocation-IVUSJO"
+$apiName = "INT-Report-IN-S-ReportsSjo-Stratiteq"
 #example outbound
-#outbound/system/integration
+#outbound/idp/system/integration
+#outbound/idp/x/system/integration
 #example inbound
-#public/x/system/integration
-$apiBasePath = "outbound/ivusjo/EmployeeAllocationConfirmation"
+#public/idp/x/system/integration - External
+#/idp/x/system/integration - Internal
+$apiBasePath = "outbound/idp/x/stratiteq/reports"
 
 
 ## SPECIFY ONE OF THE BELOW 3 Logic app, Function app or URL backend ##
@@ -104,7 +106,7 @@ elseif ($functionAppBackend)
         exit
     }
 }
-elseif ($backendServiceURL)
+elseif ($backendServiceURLdev -and $backendServiceURLtest -and $backendServiceURLqa -and $backendServiceURLprod)
 {
     Write-Host "URL backend selected"
     $zipFileName = 'api-INT-APITemplate.zip'
