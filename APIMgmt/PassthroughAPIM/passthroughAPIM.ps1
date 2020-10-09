@@ -316,7 +316,7 @@ if($setYamlPathToClipboard)
     Write-Host "Setting Azure Devops friendly path of yaml pipeline to clipboard" -ForegroundColor Green # -BackgroundColor white
 
     $relativePath = ( $outputDirectory -split '\\' | select -last $pathDepthToApi ) -join '/'
-    $yamlpath = "$relativePath/api-$apiName/api-$apiName.pipeline.yml"
+    $yamlpath = "$relativePath/api-$apiName/api-$apiName.pipeline.yml".TrimStart('/')
     Set-Clipboard -Value $yamlpath
 
 }
