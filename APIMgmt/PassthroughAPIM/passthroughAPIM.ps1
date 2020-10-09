@@ -242,6 +242,8 @@ foreach($File in $APIPath){
     #Replace path APIin swagger and template
     (Get-Content $File.Fullname).Replace('REPLACED_WITH_API_PATH', $apiBasePath) | Set-Content $File.FullName
 
+    if($logicAppBackend -or $functionAppBackend)
+    {
     #Replace resource parameter name (first 25 characters)
     (Get-Content $File.Fullname).Replace('REPLACED_WITH_RESOURCE_NAME_PARTIAL', $resourceAppName[0..24] -join "")  | Set-Content $File.FullName
 
@@ -251,8 +253,12 @@ foreach($File in $APIPath){
     #Replace resource resource group
     (Get-Content $File.Fullname).Replace('REPLACED_WITH_RESOURCE_RG', $resourceResourceGroup)  | Set-Content $File.FullName
 
+    }
+    if($functionAppBackend)
+    {
     #Replace resource resource group
     (Get-Content $File.Fullname).Replace('REPLACED_WITH_RESOURCE_PATH', $resourcePath)  | Set-Content $File.FullName
+    }
 
     #Replace versionset guid
     (Get-Content $File.Fullname).Replace('REPLACED_WITH_versionsetGuid', $versionsetGuid)  | Set-Content $File.FullName
