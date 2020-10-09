@@ -3,18 +3,23 @@
 
 #Complete output directory
 $outputDirectory = "C:\Repos\Report\API\Internal"
+$outputDirectory = "C:\Repos\EMP-Employee\API\Internal"
+
+#YamlToClipboardSettings
+$setYamlPathToClipboard = $true
+#Specify the depth to the API folder in the repo. Bottom up from the $outputDirectory
+$pathDepthToApi = 2
 
 #API information
 $Internal = $true
-$apiName = "INT-Report-IN-S-ReportsSjo-Stratiteq"
+$apiName = "INT-Employee-OUT-S-CrewOnTrip-IVUSJO"
 #example outbound
 #outbound/idp/system/integration
 #outbound/idp/x/system/integration
 #example inbound
 #public/idp/x/system/integration - External
 #/idp/x/system/integration - Internal
-$apiBasePath = "outbound/idp/x/stratiteq/reports"
-
+$apiBasePath = "outbound/idp/ivusjo/CrewOnTrip"
 
 ## SPECIFY ONE OF THE BELOW 3 Logic app, Function app or URL backend ##
 
@@ -244,20 +249,20 @@ foreach($File in $APIPath){
 
     if($logicAppBackend -or $functionAppBackend)
     {
-    #Replace resource parameter name (first 25 characters)
-    (Get-Content $File.Fullname).Replace('REPLACED_WITH_RESOURCE_NAME_PARTIAL', $resourceAppName[0..24] -join "")  | Set-Content $File.FullName
+        #Replace resource parameter name (first 25 characters)
+        (Get-Content $File.Fullname).Replace('REPLACED_WITH_RESOURCE_NAME_PARTIAL', $resourceAppName[0..24] -join "")  | Set-Content $File.FullName
 
-    #Replace resource name
-    (Get-Content $File.Fullname).Replace('REPLACED_WITH_RESOURCE_NAME_FULL', $resourceAppName)  | Set-Content $File.FullName
+        #Replace resource name
+        (Get-Content $File.Fullname).Replace('REPLACED_WITH_RESOURCE_NAME_FULL', $resourceAppName)  | Set-Content $File.FullName
 
-    #Replace resource resource group
-    (Get-Content $File.Fullname).Replace('REPLACED_WITH_RESOURCE_RG', $resourceResourceGroup)  | Set-Content $File.FullName
+        #Replace resource resource group
+        (Get-Content $File.Fullname).Replace('REPLACED_WITH_RESOURCE_RG', $resourceResourceGroup)  | Set-Content $File.FullName
 
     }
     if($functionAppBackend)
     {
-    #Replace resource resource group
-    (Get-Content $File.Fullname).Replace('REPLACED_WITH_RESOURCE_PATH', $resourcePath)  | Set-Content $File.FullName
+        #Replace resource resource group
+        (Get-Content $File.Fullname).Replace('REPLACED_WITH_RESOURCE_PATH', $resourcePath)  | Set-Content $File.FullName
     }
 
     #Replace versionset guid
@@ -305,3 +310,15 @@ If(!(test-path $outputDirectory))
 Move-Item -Path "$workingDirectory\api-$apiName" -Destination "$outputDirectory\api-$apiName" -force
 
 Write-Host "Moving testfolder from working directory - End" -ForegroundColor Green # -BackgroundColor white
+
+if($setYamlPathToClipboard)
+{
+    Write-Host "Setting Azure Devops friendly path of yaml pipeline to clipboard" -ForegroundColor Green # -BackgroundColor white
+
+    $relativePath = ( $outputDirectory -split '\\' | select -last $pathDepthToApi ) -join '/'
+    $yamlpath = "$relativePath/$apiName/api-$apiName.pipeline.yml"
+    Set-Clipboard -Value $yamlpath
+
+}
+
+Write-Host "API Created successfully" -ForegroundColor Green # -BackgroundColor white
