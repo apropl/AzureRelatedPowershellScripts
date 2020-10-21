@@ -114,4 +114,16 @@ Write-Host "ResubmitLogicApp -subscriptionName 'New ENT Subscription' -resourceG
 Write-Host "#######  Example 2 - subscriptionID / Succeeded  #######" -BackgroundColor DarkGreen
 Write-Host "ResubmitLogicApp -subscriptionId 'guid' -resourceGroupName 'resourceName' -logicAppName 'LogicAppName' -status 'Succeeded' -startDateTime '2020-06-16T00:00:00' -endDateTime '2020-06-25T08:42:00' -test true" -ForegroundColor Green
 Write-Host "#######  Set test to true/false if you just want to simulate the output or send for real  #######" -BackgroundColor DarkGreen
-ResubmitLogicApp
+
+
+$input_Subscription = "New ENT Subscription"
+#OR
+$input_subscriptionId = "guid"
+$input_ResourceGroup = "resourceName"
+$input_logicAppName = "LogicAppName"
+$input_status = "Failed"
+$input_startDateTime = "2020-06-16T00:00:00"
+$input_endDateTime = "2020-06-25T08:42:00"
+$input_test = "true"
+
+ResubmitLogicApp -resourceGroupName $input_ResourceGroup -subscriptionName $input_Subscription -subscriptionId input_subscriptionId -logicAppName $input_logicAppName -status $input_status -startDateTime $input_startDateTime -endDateTime $input_endDateTime -test $input_test
