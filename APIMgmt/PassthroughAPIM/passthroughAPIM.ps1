@@ -272,11 +272,11 @@ foreach($File in $APIPath){
     (Get-Content $File.Fullname).Replace('REPLACED_WITH_backendIdGuid', $backendIdGuid)  | Set-Content $File.FullName    
 
     #Replace backend service URL
-    (Get-Content $File.Fullname).Replace('REPLACED_WITH_serviceURLdev', $backendServiceURLdev)  | Set-Content $File.FullName    
-    (Get-Content $File.Fullname).Replace('REPLACED_WITH_serviceURLtest', $backendServiceURLtest)  | Set-Content $File.FullName    
-    (Get-Content $File.Fullname).Replace('REPLACED_WITH_serviceURLqa', $backendServiceURLqa)  | Set-Content $File.FullName    
-    (Get-Content $File.Fullname).Replace('REPLACED_WITH_serviceURLprod', $backendServiceURLprod)  | Set-Content $File.FullName    
-    
+            (Get-Content $File.Fullname).Replace('REPLACED_WITH_serviceURLdev', $backendServiceURLdev)  | Set-Content $File.FullName
+            (Get-Content $File.Fullname).Replace('REPLACED_WITH_serviceURLtest', $backendServiceURLtest)  | Set-Content $File.FullName
+            (Get-Content $File.Fullname).Replace('REPLACED_WITH_serviceURLqa', $backendServiceURLqa)  | Set-Content $File.FullName
+            (Get-Content $File.Fullname).Replace('REPLACED_WITH_serviceURLprod', $backendServiceURLprod)  | Set-Content $File.FullName
+        
     #Rename filenames to api name
     $newname = ([String]$File.FullName).Replace($workingfolderName, "api-$apiName")
     Rename-item -Path $File.FullName -NewName $newname
@@ -323,13 +323,28 @@ if($setYamlPathToClipboard)
     
     $reponame = Split-Path -Leaf (git -C $outputDirectory remote get-url origin)
     $branchname = git -C $outputDirectory rev-parse --abbrev-ref HEAD
+        
+    Write-Host "Do you want to create a pipeline in Azure Devops for the API?" -ForegroundColor Yellow # -BackgroundColor white
+    $input = Read-Host -Prompt '[Y/N]'
+    if ($input -eq 'Y'){
+       
+       if(-Not (az extension show --name azure-devops))
+        {
+        Write-Host "Azure extension missing... Trying to install now"
+        az extension add --name azure-devops
+        }
 
-    Write-Host az pipelines create --repository $reponame --branch $branchname --name $apiName --description "'Pipeline for Api Management api $apiName'"  --yml-path $yamlpath.Replace('/','\') --folder-path APIM --repository-type tfsgit --organization "'https://dev.azure.com/SJ-ADP'" --project "'Integration Delivery'"
-    Write-Host
-    Write-Host "Make the above into ONE LINE!" -ForegroundColor Yellow
-    Write-Host "NB! In order to create a pipeline using the above command you need to." -ForegroundColor Yellow
-    Write-Host "Install this extension -> az extension add --name azure-devops" -ForegroundColor Yellow
-    Write-Host "If you are unsure. Verify that it is installed with -> az extension show --name azure-devops" -ForegroundColor Yellow
+        az pipelines create --repository $reponame --branch $branchname --name $apiName `
+        --description "Pipeline for Api Management api $apiName" `
+        --yml-path $yamlpath.Replace('/','\') --folder-path APIM `
+        --repository-type tfsgit --organization 'https://dev.azure.com/SJ-ADP' --project 'Integration Delivery'
+
+    }
+    else
+    { 
+        Write-Host "Skipping."
+        exit
+    }
 
 }
 
