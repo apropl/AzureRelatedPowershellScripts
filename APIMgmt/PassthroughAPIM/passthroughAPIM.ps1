@@ -2,24 +2,21 @@
 #################################################################################
 
 #Complete output directory
-$outputDirectory = "C:\Repos\Report\API\Internal"
-$outputDirectory = "C:\Repos\EMP-Employee\API\Internal"
-
-#YamlToClipboardSettings
-$setYamlPathToClipboard = $true
-#Specify the depth to the API folder in the repo. Bottom up from the $outputDirectory
+$outputDirectory = "C:\Repos\TRA-Transit\API\Internal"
+#Specify the depth to the API output folder in the. Bottom up from the $outputDirectory
+#Eg if repo basepath = C:\Repos and the output is in C:\Repos\API\ then the depth is 1. 
 $pathDepthToApi = 2
 
 #API information
 $Internal = $true
-$apiName = "INT-Employee-OUT-S-CrewOnTrip-IVUSJO"
+$apiName = "INT-Transit-OUT-S-TrafficDisturbances-XOD2"
 #example outbound
 #outbound/idp/system/integration
 #outbound/idp/x/system/integration
 #example inbound
 #public/idp/x/system/integration - External
 #/idp/x/system/integration - Internal
-$apiBasePath = "outbound/idp/ivusjo/CrewOnTrip"
+$apiBasePath = "outbound/idp/xod/Disturbances"
 
 ## SPECIFY ONE OF THE BELOW 3 Logic app, Function app or URL backend ##
 
@@ -311,41 +308,32 @@ Move-Item -Path "$workingDirectory\api-$apiName" -Destination "$outputDirectory\
 
 Write-Host "Moving testfolder from working directory - End" -ForegroundColor Green # -BackgroundColor white
 
-if($setYamlPathToClipboard)
+Write-Host "Do you want to create a pipeline in Azure Devops for the API?" -ForegroundColor Yellow # -BackgroundColor white
+$input = Read-Host -Prompt '[Y/N]'
+if ($input -eq 'Y')
 {
-    Write-Host "Setting Azure Devops friendly path of yaml pipeline to clipboard:" -ForegroundColor Green # -BackgroundColor white
-
     $relativePath = ( $outputDirectory -split '\\' | select -last $pathDepthToApi ) -join '/'
     $yamlpath = "$relativePath/api-$apiName/api-$apiName.pipeline.yml".TrimStart('/')
-    Set-Clipboard -Value $yamlpath
-    Write-Host $yamlpath -ForegroundColor Yellow # -BackgroundColor white
-    Write-Host
     
     $reponame = Split-Path -Leaf (git -C $outputDirectory remote get-url origin)
     $branchname = git -C $outputDirectory rev-parse --abbrev-ref HEAD
-        
-    Write-Host "Do you want to create a pipeline in Azure Devops for the API?" -ForegroundColor Yellow # -BackgroundColor white
-    $input = Read-Host -Prompt '[Y/N]'
-    if ($input -eq 'Y'){
        
-       if(-Not (az extension show --name azure-devops))
-        {
-        Write-Host "Azure extension missing... Trying to install now"
-        az extension add --name azure-devops
-        }
-
-        az pipelines create --repository $reponame --branch $branchname --name $apiName `
-        --description "Pipeline for Api Management api $apiName" `
-        --yml-path $yamlpath.Replace('/','\') --folder-path APIM `
-        --repository-type tfsgit --organization 'https://dev.azure.com/SJ-ADP' --project 'Integration Delivery'
-
-    }
-    else
-    { 
-        Write-Host "Skipping."
-        exit
+    if(-Not (az extension show --name azure-devops))
+    {
+    Write-Host "Azure extension missing... Trying to install now"
+    az extension add --name azure-devops
     }
 
+    az pipelines create --repository $reponame --branch $branchname --name $apiName `
+    --description "Pipeline for Api Management api $apiName" `
+    --yml-path $yamlpath.Replace('/','\') --folder-path APIM `
+    --repository-type tfsgit --organization 'https://dev.azure.com/SJ-ADP' --project 'Integration Delivery'
+
+}
+else
+{ 
+    Write-Host "Skipping."
+    exit
 }
 
 Write-Host "API Created successfully" -ForegroundColor Green # -BackgroundColor white
