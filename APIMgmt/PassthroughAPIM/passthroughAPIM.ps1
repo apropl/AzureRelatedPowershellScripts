@@ -313,11 +313,23 @@ Write-Host "Moving testfolder from working directory - End" -ForegroundColor Gre
 
 if($setYamlPathToClipboard)
 {
-    Write-Host "Setting Azure Devops friendly path of yaml pipeline to clipboard" -ForegroundColor Green # -BackgroundColor white
+    Write-Host "Setting Azure Devops friendly path of yaml pipeline to clipboard:" -ForegroundColor Green # -BackgroundColor white
 
     $relativePath = ( $outputDirectory -split '\\' | select -last $pathDepthToApi ) -join '/'
     $yamlpath = "$relativePath/api-$apiName/api-$apiName.pipeline.yml".TrimStart('/')
     Set-Clipboard -Value $yamlpath
+    Write-Host $yamlpath -ForegroundColor Yellow # -BackgroundColor white
+    Write-Host
+    
+    $reponame = Split-Path -Leaf (git -C $outputDirectory remote get-url origin)
+    $branchname = git -C $outputDirectory rev-parse --abbrev-ref HEAD
+
+    Write-Host az pipelines create --repository $reponame --branch $branchname --name $apiName --description "'Pipeline for Api Management api $apiName'"  --yml-path $yamlpath.Replace('/','\') --folder-path APIM --repository-type tfsgit --organization "'https://dev.azure.com/SJ-ADP'" --project "'Integration Delivery'"
+    Write-Host
+    Write-Host "Make the above into ONE LINE!" -ForegroundColor Yellow
+    Write-Host "NB! In order to create a pipeline using the above command you need to." -ForegroundColor Yellow
+    Write-Host "Install this extension -> az extension add --name azure-devops" -ForegroundColor Yellow
+    Write-Host "If you are unsure. Verify that it is installed with -> az extension show --name azure-devops" -ForegroundColor Yellow
 
 }
 
