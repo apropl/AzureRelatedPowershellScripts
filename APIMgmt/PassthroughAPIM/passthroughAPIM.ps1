@@ -2,24 +2,19 @@
 #################################################################################
 
 #Complete output directory
-$outputDirectory = "C:\Repos\TRA-Transit\API\Internal"
-#Specify the depth to the API output folder in the. Bottom up from the $outputDirectory
-#Eg if repo basepath = C:\Repos and the output is in C:\Repos\API\ then the depth is 1. 
-$pathDepthToApi = 2
+$outputDirectory = "C:\Repos\TRA-TrainComposition\API\Internal"
 
 #API information
 $Internal = $true
-$apiName = "INT-Transit-OUT-S-TrafficDisturbances-XOD2"
-#example outbound
-#outbound/idp/system/integration
-#outbound/idp/x/system/integration
-#example inbound
-#public/idp/x/system/integration - External
-#/idp/x/system/integration - Internal
-$apiBasePath = "outbound/idp/xod/Disturbances"
+$apiName = "INT-Train-OUT-S-StaffDeviations-AvikSJO"
+#Internal APIM	[outbound/]idp[/e|s][/system]/integration
+#External APIM	public/idp[/e|s][/system]/integration
+$apiBasePath = "outbound/idp/avik/StaffDeviations"
 
 ## SPECIFY ONE OF THE BELOW 3 Logic app, Function app or URL backend ##
-
+##If Logic app
+##Else If Function App
+##Else URL Backend
 ###################### 1 - LOGIC APP ######################
 #Specify if logic app backend
 $logicAppBackend = $false
@@ -39,10 +34,15 @@ $functionAppPath = "/api/servicebus/topic/sendmsg"
 
 ###################### 3 - URL BACKEND ###################
 #If no logic app or function app backend. Set service URL
-$backendServiceURLdev = "https://backendurl.dev"
-$backendServiceURLtest = "https://backendurl.test"
-$backendServiceURLqa = "https://backendurl.qa"
-$backendServiceURLprod = "https://backendurl.prod"
+$backendServiceURLdev = "N/A"
+$backendServiceURLtest = "N/A"
+$backendServiceURLqa = "N/A"
+$backendServiceURLprod = "N/A"
+
+#Semi-static value below. It depends on your repo structure.
+#Specify the depth to the API output folder in the. Bottom up from the $outputDirectory
+#Eg if repo basepath = C:\Repos and the output is in C:\Repos\API\ then the depth is 1. 
+$pathDepthToApi = 2
 
 ##Config ABOVE!
 #################################################################################
@@ -309,14 +309,14 @@ Move-Item -Path "$workingDirectory\api-$apiName" -Destination "$outputDirectory\
 Write-Host "Moving testfolder from working directory - End" -ForegroundColor Green # -BackgroundColor white
 
 Write-Host "Do you want to create a pipeline in Azure Devops for the API?" -ForegroundColor Yellow # -BackgroundColor white
-$input = Read-Host -Prompt '[Y/N]'
-if ($input -eq 'Y')
-{
-    $relativePath = ( $outputDirectory -split '\\' | select -last $pathDepthToApi ) -join '/'
-    $yamlpath = "$relativePath/api-$apiName/api-$apiName.pipeline.yml".TrimStart('/')
+    $input = Read-Host -Prompt '[Y/N]'
+    if ($input -eq 'Y')
+    {
+        $relativePath = ( $outputDirectory -split '\\' | select -last $pathDepthToApi ) -join '/'
+        $yamlpath = "$relativePath/api-$apiName/api-$apiName.pipeline.yml".TrimStart('/')
     
-    $reponame = Split-Path -Leaf (git -C $outputDirectory remote get-url origin)
-    $branchname = git -C $outputDirectory rev-parse --abbrev-ref HEAD
+        $reponame = Split-Path -Leaf (git -C $outputDirectory remote get-url origin)
+        $branchname = git -C $outputDirectory rev-parse --abbrev-ref HEAD
        
     if(-Not (az extension show --name azure-devops))
     {
@@ -324,16 +324,16 @@ if ($input -eq 'Y')
     az extension add --name azure-devops
     }
 
-    az pipelines create --repository $reponame --branch $branchname --name $apiName `
-    --description "Pipeline for Api Management api $apiName" `
-    --yml-path $yamlpath.Replace('/','\') --folder-path APIM `
-    --repository-type tfsgit --organization 'https://dev.azure.com/SJ-ADP' --project 'Integration Delivery'
+        az pipelines create --repository $reponame --branch $branchname --name $apiName `
+        --description "Pipeline for Api Management api $apiName" `
+        --yml-path $yamlpath.Replace('/','\') --folder-path APIM `
+        --repository-type tfsgit --organization 'https://dev.azure.com/SJ-ADP' --project 'Integration Delivery'    
 
-}
-else
-{ 
-    Write-Host "Skipping."
-    exit
-}
+    }
+    else
+    { 
+        Write-Host "Skipping."
+        exit
+    }
 
 Write-Host "API Created successfully" -ForegroundColor Green # -BackgroundColor white
