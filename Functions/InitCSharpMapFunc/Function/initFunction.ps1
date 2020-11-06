@@ -1,36 +1,22 @@
-﻿##Config BELOW!
+﻿param(
+[Parameter(Mandatory = $true)][string]$repoRootFolder,
+[Parameter(Mandatory = $true)][string]$functionAppName,
+[Parameter(Mandatory = $true)][string]$functionName,
+[Parameter(Mandatory = $true)][string]$businessobject
+)
 
-#Complete output directory
-$outputDirectory = "C:\Repos\EMP-Employee\Functions"
-
-#Function App information
-$functionAppName = "INT-Employee-IN-P-MapEmployeeAllocationIVUSJOToSPBSJson"
-#Default functionName = Transform. Change this if you wish
-$functionName = "Transform"
-
-#Azure Information
-$businessobject = "Employee"
-
-##Config ABOVE!
-
-#param([string] $functionAppName, [string] $functionName, [string] $businessobject, [string] $outputDirectory = "C:\Repos\businessobject\Functions\")
-
-$zipFileName = 'InitCSharpMapFunc.zip'
-$url = "https://github.com/apropl/AzureRelatedPowershellScripts/blob/master/Functions/InitCSharpMapFunc/InitCSharpMapFunc.zip?raw=true"
-$workingDirectory = "C:\Temp\InitCSharpMapFunc"
+$outputDirectory = "$repoRootFolder\Functions"  
+$workingDirectory = "$PSScriptRoot\_tmpWorkingDir\"
 $workingfolderName = "MapFunctionAppName"
 $FuncWorkingDirectory = "$workingDirectory\$workingfolderName"
 $TestWorkingDirectory = "$workingDirectory\$workingfolderName.Test"
 
 #Start by removing any leftover folders if they exist
-If((test-path $FuncWorkingDirectory))
+If((test-path $workingDirectory))
 {
-    Remove-Item -LiteralPath $FuncWorkingDirectory -Force -Recurse
+    Remove-Item -LiteralPath $workingDirectory -Force -Recurse
 }
-If((test-path "$workingDirectory\$functionAppName"))
-{
-    Remove-Item -LiteralPath "$workingDirectory\$functionAppName" -Force -Recurse
-}
+
 If((test-path "$outputDirectory\$functionAppName"))
 {
 
@@ -53,54 +39,20 @@ If((test-path "$outputDirectory\$functionAppName"))
     
 }
 
-#Download files (if missing)
-if (!(Test-Path $workingDirectory\$zipFileName)) {
-    
-    Write-Host "$zipFileName - Missing in working directory: $workingDirectory" -ForegroundColor Green # -BackgroundColor white
-    Write-Host "Downloading $zipFileName - Start" -ForegroundColor Green # -BackgroundColor white
-    
-    If(!(test-path $workingDirectory))
-    {
-          Write-Host "WorkingDirectory missing, creating it now" -ForegroundColor Yellow # -BackgroundColor white
-          New-Item -ItemType Directory -Force -Path $workingDirectory
-    }
-
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-    Invoke-WebRequest -Uri $url -OutFile $workingDirectory\$zipFileName
-
-    Write-Host "Downloading $zipFileName - End" -ForegroundColor Green # -BackgroundColor white
-}
-else {
-
-    Write-Host "$zipFileName - Exists in working directory: $workingDirectory. Do you want to redownload?" -ForegroundColor Yellow # -BackgroundColor white
-
-     $input = Read-Host -Prompt '[Y/N]'
-    if ($input -eq 'Y'){
-        Write-Host "Downloading $zipFileName - Start" -ForegroundColor Green # -BackgroundColor white
-    
-        If(!(test-path $workingDirectory))
-        {
-              Write-Host "WorkingDirectory missing, creating it now" -ForegroundColor Yellow # -BackgroundColor white
-              New-Item -ItemType Directory -Force -Path $workingDirectory
-        }
-
-        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        Invoke-WebRequest -Uri $url -OutFile $workingDirectory\$zipFileName
-
-        Write-Host "Downloading $zipFileName - End" -ForegroundColor Green # -BackgroundColor white
-    }
-    else
-    { 
-        Write-Host "Skipping redownloading zip file." -ForegroundColor yellow # -BackgroundColor white
-    }
+#Create Working Dir (if missing)
+If(!(test-path $workingDirectory))
+{
+        Write-Host "Creating working directory" -ForegroundColor Green # -BackgroundColor white
+        New-Item -ItemType Directory -Force -Path $workingDirectory
 }
 
-#Extract Zip-file
-Write-Host "Extracting files - Start" -ForegroundColor Green # -BackgroundColor white
+#Copy Template folder
+Write-Host "Copying template folder - Start" -ForegroundColor Green # -BackgroundColor white
 
-Expand-Archive -Path $workingDirectory\$zipFileName -DestinationPath $workingDirectory\ -Force
+Copy-Item -Path "$PSScriptRoot\$workingfolderName" -Destination $workingDirectory -recurse -force
+Copy-Item -Path "$PSScriptRoot\$workingfolderName.Test" -Destination $workingDirectory -recurse -force
 
-Write-Host "Extracting files - End" -ForegroundColor Green # -BackgroundColor white
+Write-Host "Copying template folder - End" -ForegroundColor Green # -BackgroundColor white
 
 #Rename FuncApp folder
 Write-Host "Updating files and folders - Start" -ForegroundColor Green # -BackgroundColor white
@@ -167,4 +119,11 @@ If(!(test-path $outputDirectory))
 Move-Item -Path $workingDirectory\$functionAppName -Destination $outputDirectory\$functionAppName -force
 Move-Item -Path $workingDirectory\$functionAppName.Test -Destination $outputDirectory\$functionAppName.Test -force
 
+#Cleanup leftover folders
+If((test-path $workingDirectory))
+{
+    Remove-Item -LiteralPath $workingDirectory -Force -Recurse
+}
+
 Write-Host "Moving testfolder from working directory - End" -ForegroundColor Green # -BackgroundColor white
+
