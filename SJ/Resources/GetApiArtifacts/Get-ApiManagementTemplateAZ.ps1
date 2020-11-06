@@ -25,13 +25,13 @@ Write-Host "Acquiring access token."
 
 $context = Get-AzContext
 
-if (!$context -or [string]::IsNullOrEmpty($context.Account) -or [string]::IsNullOrEmpty($context.TokenCache)) 
+if (!$context -or [string]::IsNullOrEmpty($context.Account)) 
 {
     $rmAccount = Connect-AzAccount
     $context = $rmAccount.Context
 }
 
-if (!$context -or [string]::IsNullOrEmpty($context.Account) -or [string]::IsNullOrEmpty($context.TokenCache))
+if (!$context -or [string]::IsNullOrEmpty($context.Account))
 {
     Write-Host
     Write-Error "Cannot proceed without login."
@@ -40,10 +40,14 @@ else
 {
     $tenantId = (Get-AzSubscription -SubscriptionId $subscriptionid).TenantId
     $tokenCache = $context.TokenCache
-    $cachedTokens = $tokenCache.ReadItems() `
-            | where { $_.TenantId -eq $tenantId } `
-            | Sort-Object -Property ExpiresOn -Descending
-    $accessToken = $cachedTokens[0].AccessToken
+    $accessToken = $null
+    if (![string]::IsNullOrEmpty($context.TokenCache))
+    {
+        $cachedTokens = $tokenCache.ReadItems() `
+                | where { $_.TenantId -eq $tenantId } `
+                | Sort-Object -Property ExpiresOn -Descending
+        $accessToken = $cachedTokens[0].AccessToken
+    }
 
     Get-AzSubscription -SubscriptionId $subscriptionid | Select-AzSubscription | Out-Null
 

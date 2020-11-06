@@ -1,14 +1,18 @@
-﻿
-
-# Set the name of the API Mangement instance
-$apimanagementname = 'adp-apimgmt-azure-dev' # adp-apimgmt-azure-dev or adp-apimgmt-se-dev
-#$apimanagementname = 'adp-apimgmt-se-dev' # adp-apimgmt-azure-dev or adp-apimgmt-se-dev
-
-# Name of the API in API Management
-$apiname = "INT-DataCache-IO-S-Trafikverket"
+﻿##Config BELOW!
+#################################################################################
     
-# Location to save output files to
-$repoRootFolder = 'C:\Repos\Report2'
+#Location to save output files to
+    $repoRootFolder = 'C:\Repos\Report'
+
+#Set the name of the API Mangement instance
+    $apimanagementname = 'adp-apimgmt-azure-dev'
+    #$apimanagementname = 'adp-apimgmt-se-dev'
+
+#Name of the API in API Management
+    $apiname = "INT-DataCache-IO-S-Trafikverket"
+
+##Config ABOVE!
+#################################################################################
 
 $CurrentPath = Get-Location
 cd $PSScriptRoot

@@ -1,16 +1,17 @@
 ﻿##Config BELOW!
 #################################################################################
 
-#Complete output directory
-$repoRootFolder = "C:\Repos\EMP-Employee2\"
+#Repo output directory
+    $repoRootFolder = "C:\Repos\Report\"
 
 #Function App information
-$functionAppName = "INT-Employee-IN-P-MapEmployeeAllocationIVUSJOToSPBSJson"
+    $functionAppName = "INT-Employee-IN-P-MapEmployeeAllocationIVUSJOToSPBSJson"
+
 #Default functionName = Transform. Change this if you wish
-$functionName = "Transform"
+    $functionName = "Transform"
 
 #Azure Information
-$businessobject = "Employee"
+    $businessobject = "Employee"
 
 ##Config ABOVE!
 #################################################################################
