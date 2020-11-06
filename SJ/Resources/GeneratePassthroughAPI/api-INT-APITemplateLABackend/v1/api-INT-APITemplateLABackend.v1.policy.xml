@@ -1,0 +1,17 @@
+<policies>
+  <inbound>
+    <base />
+    <set-backend-service id="apim-generated-policy" backend-id="LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_e057e5cfb6b98536c0a4e0ddaa44eb4e" />
+	<set-header id="apim-generated-policy" name="Ocp-Apim-Subscription-Key" exists-action="delete" />
+	<set-query-parameter name="subscription-key" exists-action="delete" />
+  </inbound>
+  <backend>
+    <base />
+  </backend>
+  <outbound>
+    <base />
+  </outbound>
+  <on-error>
+    <base />
+  </on-error>
+</policies>

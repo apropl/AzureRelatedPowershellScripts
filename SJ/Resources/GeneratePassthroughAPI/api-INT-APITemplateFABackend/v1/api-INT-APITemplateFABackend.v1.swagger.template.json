@@ -1,0 +1,59 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "service_REPLACED_WITH_APIM_INSTANCE_name": {
+      "type": "string",
+      "defaultValue": "REPLACED_WITH_APIM_INSTANCE"
+    },
+    "api_REPLACED_WITH_apimNameLowerCase_name": {
+      "type": "string",
+      "defaultValue": "REPLACED_WITH_apimNameLowerCase"
+    },
+    "repoBaseUrl": {
+      "type": "string",
+      "metadata": {
+        "description": "Base URL of the repository"
+      }
+    },
+    "_artifactsLocationSasToken": {
+      "type": "securestring",
+      "defaultValue": ""
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "comments": "Generated for resource /subscriptions/6c0c26ce-999b-4550-b46d-8084fc33f398/resourceGroups/apimgmt-spoke-dev-adp-rg/providers/Microsoft.ApiManagement/service/REPLACED_WITH_APIM_INSTANCE/apis/REPLACED_WITH_apimNameLowerCase",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "name": "[concat(parameters('service_REPLACED_WITH_APIM_INSTANCE_name'), '/' ,parameters('api_REPLACED_WITH_apimNameLowerCase_name'))]",
+      "apiVersion": "2018-06-01-preview",
+      "properties": {
+        "path": "REPLACED_WITH_apimNameLowerCase",
+        "protocols": [
+          "https"
+        ],
+        "contentFormat": "swagger-link-json",
+        "contentValue": "[concat(parameters('repoBaseUrl'), '/api-REPLACED_WITH_apimNameUpperCase/v1/api-REPLACED_WITH_apimNameUpperCase.v1.swagger.json', parameters('_artifactsLocationSasToken'))]"
+      },
+      "resources": [
+        {
+          "comments": "Generated for resource /subscriptions/6c0c26ce-999b-4550-b46d-8084fc33f398/resourceGroups/apimgmt-spoke-dev-adp-rg/providers/Microsoft.ApiManagement/service/REPLACED_WITH_APIM_INSTANCE/apis/REPLACED_WITH_apimNameLowerCase/operations/passthrough/policies/policy",
+          "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+          "name": "[concat(parameters('service_REPLACED_WITH_APIM_INSTANCE_name'), '/', parameters('api_REPLACED_WITH_apimNameLowerCase_name'), '/', 'passthrough', '/', 'policy')]",
+          "apiVersion": "2019-01-01",
+          "properties": {
+            "value": "[concat(parameters('repoBaseUrl'), '/api-REPLACED_WITH_apimNameUpperCase/v1/api-REPLACED_WITH_apimNameUpperCase.v1.passthrough.policy.xml', parameters('_artifactsLocationSasToken'))]",
+            "format": "xml-link"
+          },
+          "resources": [],
+          "dependsOn": [
+            "[resourceId('Microsoft.ApiManagement/service/apis', parameters('service_REPLACED_WITH_APIM_INSTANCE_name') , parameters('api_REPLACED_WITH_apimNameLowerCase_name'))]"
+          ]
+        }
+      ],
+      "dependsOn": []
+    }
+  ],
+  "outputs": {}
+}

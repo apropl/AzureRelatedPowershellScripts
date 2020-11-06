@@ -1,0 +1,31 @@
+# This is a pipeline TEMPLATE for deploying APIs across dev, test, qa and prod
+
+name: $(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r) # build numbering format
+resources:
+  repositories:
+    - repository: common-templates
+      type: git # Azure DevOps repo
+      name: Integration Delivery/Common  # name needs to be hardcoded, cannot use variables here
+      ref: master
+
+variables:
+- group: common-env # Links in values from this variable group
+# Expected: serviceconnection, az-location, subscription-dev, subscription-test, subscription-qa, subscription-prod, artifactsStorageUri, artifactsStorageName, artifactsStorageSasToken
+- name: template-type 
+  value: API/<<APIM-LOCATION>> # Needs to be either API/External or API/Internal
+- name: template-name-prefix
+  value: <<API-NAME>>
+
+trigger:
+  branches:
+    include:
+    - '*'
+  paths:
+    include: # Include needs to be hardcoded, cannot use variables or trigger wont trigger
+    - API/<<APIM-LOCATION>>/<<API-NAME>>/*
+
+pool:
+  vmImage: 'vs2017-win2016'    
+
+stages:
+- template: PipelineTemplates/apim-shared-versioned-api.pipeline.yml@common-templates  # Template reference
