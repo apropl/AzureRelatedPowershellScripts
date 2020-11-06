@@ -31,7 +31,7 @@
   ],
   "paths": {
     "/": {
-      "post": {
+      "REPLACED_WITH_OperationLowerCase": {
         "description": "Passthrough API",
         "operationId": "passthrough",
         "summary": "passthrough",

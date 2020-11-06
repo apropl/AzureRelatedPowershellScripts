@@ -1,4 +1,4 @@
-# This is a pipeline for deploying across dev, test, qa and prod
+# This is a pipeline TEMPLATE for deploying APIs across dev, test, qa and prod
 
 name: $(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r) # build numbering format
 resources:
