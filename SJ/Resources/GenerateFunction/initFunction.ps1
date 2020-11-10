@@ -1,4 +1,11 @@
-﻿param(
+﻿# The folders below includes:
+#	• Boilerplate code for Function
+#	• Boilerplate code for Unit tests
+# This script generates a V3 C# Function app including a test project.
+# You can update the contents of the folders with your boilerplate code if you like.
+# For example iy you want some tests to allways be included when you create a new function app aso.#
+
+param(
 [Parameter(Mandatory = $true)][string]$repoRootFolder,
 [Parameter(Mandatory = $true)][string]$functionAppName,
 [Parameter(Mandatory = $true)][string]$functionName,

@@ -1,4 +1,10 @@
-﻿#################################################################################
+﻿# The folders below includes api management apis for:
+#	• Logic app Backend
+#	• Function app Backend
+#	• URL Backend
+# This script generates an api mgmt passthrough template with version, basic policy and yaml pipeline. 
+# You can also specify in the script if you want to create a passthrough api with an logic app or function app as backend instead of a webservice.
+
 param(
 [Parameter(Mandatory = $true)][string]$repoRootFolder,
 [Parameter(Mandatory = $true)][bool]$Internal,
@@ -98,7 +104,7 @@ elseif ($Template -eq 3)
     if ($backendServiceURLdev -and $backendServiceURLtest -and $backendServiceURLqa -and $backendServiceURLprod)
     {
         Write-Host "URL backend selected"
-        $apiFolderName = 'api-INT-APITemplate'
+        $apiFolderName = 'api-INT-APITemplateURLBackend'
     }
     else
     {

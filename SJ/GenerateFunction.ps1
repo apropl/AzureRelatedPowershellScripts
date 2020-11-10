@@ -18,6 +18,8 @@
 
 $CurrentPath = Get-Location
 cd $PSScriptRoot
-# Run this command to generate Azure ARM templates 
+
+#Execute script
 ./Resources/GenerateFunction/initFunction.ps1 $repoRootFolder $functionAppName $functionName $businessobject
+
 cd $CurrentPath

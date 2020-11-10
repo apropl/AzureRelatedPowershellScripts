@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "service_REPLACED_WITH_APIM_INSTANCE_name": {
+      "value": "REPLACED_WITH_APIM_INSTANCE"
+    },
+    "api_REPLACED_WITH_apimNameLowerCase_name": {
+      "value": "REPLACED_WITH_apimNameLowerCase"
+    },
+    "REPLACED_WITH_apimNameLowerCase_serviceUrl": {
+      "value": "REPLACED_WITH_serviceURLprod"
+    },
+    "REPLACED_WITH_apimNameLowerCase_apiRevision": {
+      "value": "1"
+    },
+    "REPLACED_WITH_apimNameLowerCase_apiVersion": {
+      "value": "v1"
+    },
+    "REPLACED_WITH_apimNameLowerCase_isCurrent": {
+      "value": true
+    }
+  }
+}

@@ -23,8 +23,6 @@ cd $PSScriptRoot
 ./Resources/GetLogicAppArtifacts/Get-LogicAppTemplateAZ.ps1 $resourcegroup $logicapp $repoRootFolder
 
 # Run this command to generate Azure DevOps Build & Deploy pipelines
-# This prints an Azure CLI command you can run to create the pipeline in Azure DevOps, after you have
-#   manually reviewed what's been created, adjusted parameter files, and checked-in the code
 ./Resources/GetLogicAppArtifacts/Get-LogicAppPipeline.ps1 $resourcegroup $bussinessobject $logicapp $repoRootFolder $true
 
 cd $CurrentPath

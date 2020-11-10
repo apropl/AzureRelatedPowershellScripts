@@ -2,7 +2,7 @@
 #################################################################################
 
 #Complete output directory
-    $repoRootFolder = "C:\Repos\Report"
+    $repoRootFolder = "C:\Repos\Report2"
 
 #API information
     $Internal = $true
@@ -14,17 +14,17 @@
     $apiBasePath = "outbound/idp/avik/StaffDeviations2"
 
 #Sepcify which templates to use
-#1 = Logic app
-#2 = Function app
-#3 = Backend URL
+#1 = Logic app Backend
+#2 = Function app Backend
+#3 = URL Backend
     $Template = 3
 
-###################### 1 - LOGIC APP ######################
+###################### 1 - LOGIC APP BACKEND ######################
 #Logic App ( Complete name/rg to DEV )
     $logicAppName = "LogicAppName"
     $logicAppResourceGroup = "ResourceGroupName"
 
-###################### 2 - FUNCTION APP ###################
+###################### 2 - FUNCTION APP BACKEND ###################
 #Function App ( Complete name/rg to DEV )
     $functionAppName = "int-common-messagerouter-dev-fa"
     $functionAppResourceGroup = "NordIntegration-dev-adp-rg"
@@ -42,6 +42,8 @@
 
 $CurrentPath = Get-Location
 cd $PSScriptRoot
-# Run this command to generate Azure ARM templates 
+
+#Execute script
 ./Resources/GeneratePassthroughAPI/passthroughAPI.ps1 $repoRootFolder $Internal $apiName $operation $apiBasePath $Template $logicAppName $logicAppResourceGroup $functionAppName $functionAppResourceGroup $functionAppPath $backendServiceURLdev $backendServiceURLtest $backendServiceURLqa $backendServiceURLprod
+
 cd $CurrentPath

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "service_REPLACED_WITH_APIM_INSTANCE_name": {
+      "type": "string",
+      "defaultValue": "REPLACED_WITH_APIM_INSTANCE"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "comments": "Generated for resource /subscriptions/6c0c26ce-999b-4550-b46d-8084fc33f398/resourceGroups/apimgmt-spoke-dev-adp-rg/providers/Microsoft.ApiManagement/service/REPLACED_WITH_APIM_INSTANCE/apiVersionSets/REPLACED_WITH_versionsetGuid",
+      "type": "Microsoft.ApiManagement/service/apiVersionSets",
+      "name": "[concat(parameters('service_REPLACED_WITH_APIM_INSTANCE_name'), '/', 'REPLACED_WITH_versionsetGuid')]",
+      "apiVersion": "2019-01-01",
+      "properties": {
+        "displayName": "REPLACED_WITH_apimNameUpperCase",
+        "description": null,
+        "versioningScheme": "Segment",
+        "versionQueryName": null,
+        "versionHeaderName": null
+      },
+      "resources": [],
+      "dependsOn": []
+    }
+  ],
+  "outputs": {}
+}
