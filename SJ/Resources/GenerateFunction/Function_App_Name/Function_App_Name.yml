@@ -1,0 +1,42 @@
+name: $(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r) # build numbering format
+resources:
+  repositories:
+    - repository: commontemplates # do not change this name to something else, the referenced pipeline uses this internally
+      type: git # Azure DevOps repo
+      name: Integration Delivery/Common # name needs to be hardcoded, cannot use variables here
+      ref: master
+
+variables:
+- group: common-env # Links in values from this variable group, expected to contain: serviceconnection, az-location, subscription-dev, subscription-test, subscription-qa, subscription-prod
+
+# Resource groups
+- name: resourcegroup-dev 
+  value: 'integration-Business_Object-dev-adp-rg'
+- name: resourcegroup-test 
+  value: 'integration-Business_Object-test-adp-rg'
+- name: resourcegroup-qa 
+  value: 'integration-Business_Object-qa-adp-rg'      
+- name: resourcegroup-prod 
+  value: 'integration-Business_Object-prod-adp-rg'
+
+# Properties for naming and grouping  
+- name: businessobject
+  value: 'Business_Object'
+- name: functionname
+  value: 'Function_App_Name' # Requirement - this should be the same with the same case for folder, template file, and prefix for web app --> ie 'INT-TrainComposition-I-E-MapRPSToVognOpptak' , for WebAppName a suffix is added by the script, ie '-dev-fa'
+
+trigger:
+  branches:
+    include:
+    - '*'
+  paths:
+    include: # Include needs to be hardcoded, cannot use variables or trigger wont trigger
+    - Functions/Function_App_Name/*
+
+pool:
+  vmImage: 'ubuntu-latest'    
+
+stages:
+- template: PipelineTemplates/fa-csharp-shared.pipeline.yml@commontemplates  # Template reference
+  parameters:
+    useSharedPipeline: true # Really means - Use shared ARM template? Yes, use the one contained in the Common repo. No ARM template needed in current project.

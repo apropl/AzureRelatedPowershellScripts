@@ -61,12 +61,9 @@ if(-Not (az pipelines show --name $apiName --organization "https://dev.azure.com
     Write-Host "Pipeline is missing in Azure Devops. Do you want to create a pipeline for the API?" -ForegroundColor Yellow # -BackgroundColor white
     $input = Read-Host -Prompt '[Y/N]'
     if ($input -eq 'Y')
-    {
-        $relativePath = ( $outputDirectory -split '\\' | select -last $pathDepthToApi ) -join '/'
-        $yamlpath = "$relativePath/api-$apiName/api-$apiName.pipeline.yml".TrimStart('/').Replace('/','\')
-    
-        $reponame = Split-Path -Leaf (git -C $outputDirectory remote get-url origin)
-        $branchname = git -C $outputDirectory rev-parse --abbrev-ref HEAD       
+    {    
+        $reponame = Split-Path -Leaf (git -C $rootFolder remote get-url origin)
+		$branchname = git -C $rootFolder rev-parse --abbrev-ref HEAD  
 
         if($reponame -And $branchname)
         {            		

@@ -2,14 +2,14 @@
 #################################################################################
     
 #Location to save output files to
-    $repoRootFolder = 'C:\Repos\TRA-Transit'
+    $repoRootFolder = 'C:\Repos\Report'
 
 #Set the name of the API Mangement instance
     $apimanagementname = 'adp-apimgmt-azure-dev'
     #$apimanagementname = 'adp-apimgmt-se-dev'
 
 #Name of the API in API Management
-    $apiname = "INT-Transit-IN-S-SituationsSJO"
+    $apiname = "INT-DataCache-IO-S-Trafikverket"
 
 ##Config ABOVE!
 #################################################################################

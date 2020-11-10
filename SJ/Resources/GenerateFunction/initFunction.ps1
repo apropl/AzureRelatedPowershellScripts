@@ -12,9 +12,15 @@ param(
 [Parameter(Mandatory = $true)][string]$businessobject
 )
 
+#Semi-static variables
+#devops config
+$organization = "https://dev.azure.com/SJ-ADP"
+$project = "Integration Delivery"
+
+#Static variables
 $outputDirectory = "$repoRootFolder\Functions"  
 $workingDirectory = "$PSScriptRoot\_tmpWorkingDir\"
-$workingfolderName = "MapFunctionAppName"
+$workingfolderName = "Function_App_Name"
 $FuncWorkingDirectory = "$workingDirectory\$workingfolderName"
 $TestWorkingDirectory = "$workingDirectory\$workingfolderName.Test"
 
@@ -59,6 +65,14 @@ Write-Host "Copying template folder - Start" -ForegroundColor Green # -Backgroun
 Copy-Item -Path "$PSScriptRoot\$workingfolderName" -Destination $workingDirectory -recurse -force
 Copy-Item -Path "$PSScriptRoot\$workingfolderName.Test" -Destination $workingDirectory -recurse -force
 
+#Remove bin/obj/.vs folders...
+Remove-Item -LiteralPath "$FuncWorkingDirectory\bin" -Force -Recurse -ErrorAction SilentlyContinue
+Remove-Item -LiteralPath "$FuncWorkingDirectory\obj" -Force -Recurse -ErrorAction SilentlyContinue
+Remove-Item -LiteralPath "$FuncWorkingDirectory\.vs" -Force -Recurse -ErrorAction SilentlyContinue
+Remove-Item -LiteralPath "$TestWorkingDirectory\bin" -Force -Recurse -ErrorAction SilentlyContinue
+Remove-Item -LiteralPath "$TestWorkingDirectory\obj" -Force -Recurse -ErrorAction SilentlyContinue
+Remove-Item -LiteralPath "$TestWorkingDirectory\.vs" -Force -Recurse -ErrorAction SilentlyContinue
+
 Write-Host "Copying template folder - End" -ForegroundColor Green # -BackgroundColor white
 
 #Rename FuncApp folder
@@ -79,9 +93,9 @@ foreach($File in $FunctionPath){
     (Get-Content $File.Fullname).Replace('Function_App_Name', $functionAppName) | Set-Content $File.FullName
     (Get-Content $File.Fullname).Replace('Function_Name', $functionName) | Set-Content $File.FullName
     (Get-Content $File.Fullname).Replace('Business_Object', $businessobject.ToLower()) | Set-Content $File.FullName
-    (Get-Content $File.Fullname).Replace('MapFunctionSolutionGuid', $guid1.ToString().ToUpper()) | Set-Content $File.FullName
-    (Get-Content $File.Fullname).Replace('MapFunctionProjectGuid', $guid2.ToString().ToUpper()) | Set-Content $File.FullName
-    (Get-Content $File.Fullname).Replace('MapFunctionTestGuid', $guid3.ToString().ToUpper()) | Set-Content $File.FullName
+    (Get-Content $File.Fullname).Replace('7F850635-E050-4E76-95FD-5CFEE813221E', $guid1.ToString().ToUpper()) | Set-Content $File.FullName
+    (Get-Content $File.Fullname).Replace('3A4B3AEE-E775-4308-9808-67C78C72B1D9', $guid2.ToString().ToUpper()) | Set-Content $File.FullName
+    (Get-Content $File.Fullname).Replace('1A5B61F8-C49D-4C56-BFF0-C94988BECD2E', $guid3.ToString().ToUpper()) | Set-Content $File.FullName
     
     
     #Rename filenames to func app name
@@ -91,8 +105,8 @@ foreach($File in $FunctionPath){
     }
 
     #Rename filenames to func app name
-    if ([String]$File.FullName -like '*FunctionName*'){
-    $newname2 = ([String]$File.FullName).Replace('FunctionName', "$functionName")
+    if ([String]$File.FullName -like '*Function_Name*'){
+    $newname2 = ([String]$File.FullName).Replace('Function_Name', "$functionName")
     Rename-item -Path $File.FullName -NewName $newname2
     }
     
@@ -100,7 +114,7 @@ foreach($File in $FunctionPath){
 
 #Replace contents of test project
 Rename-Item -Path "$TestWorkingDirectory" -NewName "$functionAppName.Test"
-Rename-Item -Path "$workingDirectory\$functionAppName.Test\FunctionAppName.csproj" -NewName "$functionAppName.Test.csproj"
+Rename-Item -Path "$workingDirectory\$functionAppName.Test\Function_App_Name.Test.csproj" -NewName "$functionAppName.Test.csproj"
 
 $FunctionPath = Get-ChildItem -Path $workingDirectory\$functionAppName.Test\ -Recurse -File | Select-Object FullName
 
@@ -134,3 +148,86 @@ If((test-path $workingDirectory))
 
 Write-Host "Moving testfolder from working directory - End" -ForegroundColor Green # -BackgroundColor white
 
+Write-Host
+Write-Host "## TRYING TO CREATE PIPELINE IN DEVOPS ##" -ForegroundColor Yellow # -BackgroundColor white
+Write-Host "Ignore the red text!" -ForegroundColor Yellow # -BackgroundColor white
+Write-Host "Creating Pipeline in devops - Start" -ForegroundColor Green # -BackgroundColor white
+
+if(-Not (az extension show --name azure-devops))
+{
+    Write-Host "Azure extension missing... Trying to install now"
+    az extension add --name azure-devops
+}
+
+$relativeFolderPath = Join-Path Functions $functionAppName
+$pipelineName = "$functionAppName.yml"
+$pipelineRelativePath = Join-Path $relativeFolderPath $pipelineName
+
+if(-Not (az pipelines show --name $functionAppName --organization $organization --project $project))
+{
+    Write-Host "Pipeline is missing in Azure Devops. Do you want to create a pipeline for the API?" -ForegroundColor Yellow # -BackgroundColor white
+    $input = Read-Host -Prompt '[Y/N]'
+    if ($input -eq 'Y')
+    {
+    
+        $reponame = Split-Path -Leaf (git -C $outputDirectory remote get-url origin)
+        $branchname = git -C $outputDirectory rev-parse --abbrev-ref HEAD       
+
+        if($reponame -And $branchname)
+        {
+            az pipelines create --repository $reponame --branch $branchname --name $functionAppName `
+            --description "Pipeline for Function app $functionAppName" `
+            --yml-path $pipelineRelativePath --folder-path APIM `
+            --repository-type tfsgit --organization $organization --project $project
+           
+            Write-Host
+            Write-Host "Pipeline successfully created!" -ForegroundColor Green
+        }
+        else
+        {
+            Write-Host
+            Write-Host "Output directory is not in a git repo!" -ForegroundColor Yellow
+            Write-Host "Run the below command to create your Azure DevOps pipline"
+            Write-Host "Replace YOURREPONAME and YOURBRANCHNAME"
+            Write-Host
+            Write-Host "For this you need Azure CLI and the Azure DevOps extension (az extension add --name azure-devops)"
+            Write-Host "This should be automatically installed using this script"
+            Write-Host
+            Write-Host "az pipelines create --repository YOURREPONAME --branch YOURBRANCHNAME --name $functionAppName ``"
+            Write-Host "--description 'Pipeline for Function app $functionAppName' ``"
+            Write-Host "--yml-path $pipelineRelativePath --folder-path APIM ``"
+            Write-Host "--repository-type tfsgit --organization '$organization' --project '$project'"
+            Write-Host
+            Write-Host "Pipeline was not created!" -ForegroundColor Yellow
+        }
+
+        #NOTE
+        #Can remove the following from the above if you are in a local Git directory that has a "remote" referencing a Azure DevOps or Azure DevOps Server repository.
+        # --organization $organization --project $project
+    }
+    else
+    { 
+        Write-Host
+        Write-Host "Run the below command to create your Azure DevOps pipline"
+        Write-Host
+        Write-Host "For this you need Azure CLI and the Azure DevOps extension (az extension add --name azure-devops)"
+        Write-Host "This should be automatically installed using this script"
+        Write-Host
+        Write-Host "az pipelines create --repository YOURREPONAME --branch YOURBRANCHNAME --name $functionAppName ``"
+        Write-Host "--description 'Pipeline for Function app $functionAppName' ``"
+        Write-Host "--yml-path $pipelineRelativePath --folder-path APIM ``"
+        Write-Host "--repository-type tfsgit --organization '$organization' --project '$project'"
+        Write-Host
+        Write-Host
+        Write-Host "Pipeline was not created!" -ForegroundColor Yellow
+    }
+}
+else
+{
+    Write-Host "Pipeline allready exists in devops" -ForegroundColor Green
+}
+Write-Host "Creating Pipeline in devops - End" -ForegroundColor Green # -BackgroundColor white
+
+
+Write-Host
+Write-Host "Function app created successfully" -ForegroundColor Green # -BackgroundColor white

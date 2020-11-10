@@ -27,10 +27,6 @@ param(
 #################################################################################
 
 #LocalFolderStructure config
-#Specify the depth to the API output folder in the repo. Bottom up from the $outputDirectory
-#Eg C:\Repos\CurrentRepo\[API\Internal\] eq 2.
-$pathDepthToApi = 2
-
 #apim config
 $apimInstanceInternalName = "adp-apimgmt-azure-dev"
 $apimInstanceExternalName = "adp-apimgmt-se-dev"
@@ -50,16 +46,17 @@ If ($Internal)
 {
     $apimInstance = $apimInstanceInternalName
     $environmentString = "Internal"
-    $outputDirectory = "$repoRootFolder\API\Internal"    
+    $outputDirectory = "$repoRootFolder\API\Internal"
+
 }
 else
 {
     $apimInstance = $apimInstanceExternalName
     $environmentString = "External"
     $outputDirectory = "$repoRootFolder\API\External"
+	
+	
 }
-
-
 
 #If logic app specified, use logic app template, otherwise use passthrough template
 if($Template -eq 1)
@@ -262,6 +259,11 @@ If((test-path $workingDirectory))
 
 Write-Host "Moving testfolder from working directory - End" -ForegroundColor Green # -BackgroundColor white
 
+#Set yaml pipeline path
+$relativeFolderPath = Join-Path (Join-Path API $environmentString) api-$apiname	
+$pipelineName = "api-$apiname.pipeline.yml"
+$pipelineRelativePath = Join-Path $relativeFolderPath $pipelineName
+
 Write-Host
 Write-Host "## TRYING TO CREATE PIPELINE IN DEVOPS ##" -ForegroundColor Yellow # -BackgroundColor white
 Write-Host "Ignore the red text!" -ForegroundColor Yellow # -BackgroundColor white
@@ -289,7 +291,7 @@ if(-Not (az pipelines show --name $apiName --organization $organization --projec
         {
             az pipelines create --repository $reponame --branch $branchname --name $apiName `
             --description "Pipeline for Api Management api $apiName" `
-            --yml-path $yamlpath --folder-path APIM `
+            --yml-path $pipelineRelativePath --folder-path APIM `
             --repository-type tfsgit --organization $organization --project $project
            
             Write-Host
@@ -307,7 +309,7 @@ if(-Not (az pipelines show --name $apiName --organization $organization --projec
             Write-Host
             Write-Host "az pipelines create --repository YOURREPONAME --branch YOURBRANCHNAME --name $apiName ``"
             Write-Host "--description 'Pipeline for Api Management api $apiName' ``"
-            Write-Host "--yml-path $yamlpath --folder-path APIM ``"
+            Write-Host "--yml-path $pipelineRelativePath --folder-path APIM ``"
             Write-Host "--repository-type tfsgit --organization '$organization' --project '$project'"
             Write-Host
             Write-Host "Pipeline was not created!" -ForegroundColor Yellow
@@ -327,7 +329,7 @@ if(-Not (az pipelines show --name $apiName --organization $organization --projec
         Write-Host
         Write-Host "az pipelines create --repository $reponame --branch $branchname --name $apiName ``"
         Write-Host "--description 'Pipeline for Api Management api $apiName' ``"
-        Write-Host "--yml-path $yamlpath --folder-path APIM ``"
+        Write-Host "--yml-path $pipelineRelativePath --folder-path APIM ``"
         Write-Host "--repository-type tfsgit --organization '$organization' --project '$project'"
         Write-Host
         Write-Host
