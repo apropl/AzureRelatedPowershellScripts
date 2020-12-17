@@ -25,11 +25,11 @@
       "type": "bool",
       "defaultValue": true
     },
-    "REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup": {
+    "LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_resourceGroup": {
       "type": "string",
       "defaultValue": "REPLACED_WITH_RESOURCE_RG"
     },
-    "REPLACED_WITH_RESOURCE_NAME_PARTIAL_siteName": {
+    "LogicApp_REPLACED_WITH_RESOURCE_NAME_PARTIAL_siteName": {
       "type": "string",
       "defaultValue": "REPLACED_WITH_RESOURCE_NAME_FULL"
     }
