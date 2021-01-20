@@ -259,87 +259,15 @@ If((test-path $workingDirectory))
 
 Write-Host "Moving testfolder from working directory - End" -ForegroundColor Green # -BackgroundColor white
 
+Write-Host "Creating Pipeline in devops - Start" -ForegroundColor Green # -BackgroundColor white
+
 #Set yaml pipeline path
 $relativeFolderPath = Join-Path (Join-Path API $environmentString) api-$apiname	
 $pipelineName = "api-$apiname.pipeline.yml"
 $pipelineRelativePath = Join-Path $relativeFolderPath $pipelineName
 
-Write-Host
-Write-Host "## TRYING TO CREATE PIPELINE IN DEVOPS ##" -ForegroundColor Yellow # -BackgroundColor white
-Write-Host "Ignore the red text!" -ForegroundColor Yellow # -BackgroundColor white
-Write-Host "Creating Pipeline in devops - Start" -ForegroundColor Green # -BackgroundColor white
+. "$PSScriptRoot\..\GenerateDevopsPipeline\GenerateDevopsPipeline.ps1" -resourceName $apiName -outputDirectory $outputDirectory -pipelineRelativePath $pipelineRelativePath -pipelineFolderpath "APIM" -organization $organization -project $project
 
-if(-Not (az extension show --name azure-devops))
-{
-    Write-Host "Azure extension missing... Trying to install now"
-    az extension add --name azure-devops
-}
-
-if(-Not (az pipelines show --name $apiName --organization $organization --project $project))
-{
-    Write-Host "Pipeline is missing in Azure Devops. Do you want to create a pipeline for the API?" -ForegroundColor Yellow # -BackgroundColor white
-    $input = Read-Host -Prompt '[Y/N]'
-    if ($input -eq 'Y')
-    {
-        $relativePath = ( $outputDirectory -split '\\' | select -last $pathDepthToApi ) -join '/'
-        $yamlpath = "$relativePath/api-$apiName/api-$apiName.pipeline.yml".TrimStart('/').Replace('/','\')
-    
-        $reponame = Split-Path -Leaf (git -C $outputDirectory remote get-url origin)
-        $branchname = git -C $outputDirectory rev-parse --abbrev-ref HEAD       
-
-        if($reponame -And $branchname)
-        {
-            az pipelines create --repository $reponame --branch $branchname --name $apiName `
-            --description "Pipeline for Api Management api $apiName" `
-            --yml-path $pipelineRelativePath --folder-path APIM `
-            --repository-type tfsgit --organization $organization --project $project
-           
-            Write-Host
-            Write-Host "Pipeline successfully created!" -ForegroundColor Green
-        }
-        else
-        {
-            Write-Host
-            Write-Host "Output directory is not in a git repo!" -ForegroundColor Yellow
-            Write-Host "Run the below command to create your Azure DevOps pipline"
-            Write-Host "Replace YOURREPONAME and YOURBRANCHNAME"
-            Write-Host
-            Write-Host "For this you need Azure CLI and the Azure DevOps extension (az extension add --name azure-devops)"
-            Write-Host "This should be automatically installed using this script"
-            Write-Host
-            Write-Host "az pipelines create --repository YOURREPONAME --branch YOURBRANCHNAME --name $apiName ``"
-            Write-Host "--description 'Pipeline for Api Management api $apiName' ``"
-            Write-Host "--yml-path $pipelineRelativePath --folder-path APIM ``"
-            Write-Host "--repository-type tfsgit --organization '$organization' --project '$project'"
-            Write-Host
-            Write-Host "Pipeline was not created!" -ForegroundColor Yellow
-        }
-
-        #NOTE
-        #Can remove the following from the above if you are in a local Git directory that has a "remote" referencing a Azure DevOps or Azure DevOps Server repository.
-        # --organization $organization --project $project
-    }
-    else
-    { 
-        Write-Host
-        Write-Host "Run the below command to create your Azure DevOps pipline"
-        Write-Host
-        Write-Host "For this you need Azure CLI and the Azure DevOps extension (az extension add --name azure-devops)"
-        Write-Host "This should be automatically installed using this script"
-        Write-Host
-        Write-Host "az pipelines create --repository $reponame --branch $branchname --name $apiName ``"
-        Write-Host "--description 'Pipeline for Api Management api $apiName' ``"
-        Write-Host "--yml-path $pipelineRelativePath --folder-path APIM ``"
-        Write-Host "--repository-type tfsgit --organization '$organization' --project '$project'"
-        Write-Host
-        Write-Host
-        Write-Host "Pipeline was not created!" -ForegroundColor Yellow
-    }
-}
-else
-{
-    Write-Host "Pipeline allready exists in devops" -ForegroundColor Green
-}
 Write-Host "Creating Pipeline in devops - End" -ForegroundColor Green # -BackgroundColor white
 
 

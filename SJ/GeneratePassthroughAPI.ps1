@@ -40,10 +40,5 @@
 ##Config ABOVE!
 #################################################################################
 
-$CurrentPath = Get-Location
-cd $PSScriptRoot
-
 #Execute script
-./Resources/GeneratePassthroughAPI/passthroughAPI.ps1 $repoRootFolder $Internal $apiName $operation $apiBasePath $Template $logicAppName $logicAppResourceGroup $functionAppName $functionAppResourceGroup $functionAppPath $backendServiceURLdev $backendServiceURLtest $backendServiceURLqa $backendServiceURLprod
-
-cd $CurrentPath
+. "$PSScriptRoot\Resources\GeneratePassthroughAPI\passthroughAPI.ps1" $repoRootFolder $Internal $apiName $operation $apiBasePath $Template $logicAppName $logicAppResourceGroup $functionAppName $functionAppResourceGroup $functionAppPath $backendServiceURLdev $backendServiceURLtest $backendServiceURLqa $backendServiceURLprod

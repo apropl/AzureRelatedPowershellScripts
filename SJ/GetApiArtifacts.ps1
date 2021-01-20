@@ -14,16 +14,11 @@
 ##Config ABOVE!
 #################################################################################
 
-$CurrentPath = Get-Location
-cd $PSScriptRoot
-
 # Run this command to generate Azure ARM templates 
-./Resources/GetApiArtifacts/Get-ApiManagementTemplateAZ.ps1 $apimanagementname $apiname $repoRootFolder
+. "$PSScriptRoot\Resources\GetApiArtifacts\Get-ApiManagementTemplateAZ.ps1" $apimanagementname $apiname $repoRootFolder
 
 # Run this command to generate Azure DevOps Build & Deploy pipelines
-./Resources/GetApiArtifacts/Get-ApiManagementPipeline.ps1 $apimanagementname $apiname $repoRootFolder
-
-cd $CurrentPath
+. "$PSScriptRoot\Resources\GetApiArtifacts\Get-ApiManagementPipeline.ps1" $apimanagementname $apiname $repoRootFolder
 
 # Further improvements
 #   Generate base template for Namedvalues also? "base" = list of named values and if they are secrect or not (secret = should come from KeyVault) - must first create a dev template with tokens to replace

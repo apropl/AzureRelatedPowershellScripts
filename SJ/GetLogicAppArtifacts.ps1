@@ -16,13 +16,8 @@
 ##Config ABOVE!
 #################################################################################
 
-$CurrentPath = Get-Location
-cd $PSScriptRoot
-
 # Run this command to generate Azure ARM templates 
-./Resources/GetLogicAppArtifacts/Get-LogicAppTemplateAZ.ps1 $resourcegroup $logicapp $repoRootFolder
+. "$PSScriptRoot\Resources\GetLogicAppArtifacts\Get-LogicAppTemplateAZ.ps1" $resourcegroup $logicapp $repoRootFolder
 
 # Run this command to generate Azure DevOps Build & Deploy pipelines
-./Resources/GetLogicAppArtifacts/Get-LogicAppPipeline.ps1 $resourcegroup $bussinessobject $logicapp $repoRootFolder $true
-
-cd $CurrentPath
+. "$PSScriptRoot\Resources\GetLogicAppArtifacts\Get-LogicAppPipeline.ps1" $resourcegroup $bussinessobject $logicapp $repoRootFolder $true

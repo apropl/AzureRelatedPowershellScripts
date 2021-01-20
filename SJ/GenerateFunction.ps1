@@ -5,21 +5,16 @@
     $repoRootFolder = "C:\Repos\Report\"
 
 #Function App information
-    $functionAppName = "INT-Employee-IN-P-MapEmployeeAllocationIVUSJOToSPBSJson"
+    $functionAppName = "INT-Report-OUT-P-MapXODReports"
 
 #Default functionName = Transform. Change this if you wish
     $functionName = "Transform"
 
 #Azure Information
-    $businessobject = "Employee"
+    $businessobject = "Common"
 
 ##Config ABOVE!
 #################################################################################
 
-$CurrentPath = Get-Location
-cd $PSScriptRoot
-
 #Execute script
-./Resources/GenerateFunction/initFunction.ps1 $repoRootFolder $functionAppName $functionName $businessobject
-
-cd $CurrentPath
+. "$PSScriptRoot\Resources\GenerateFunction\initFunction.ps1" $repoRootFolder $functionAppName $functionName $businessobject

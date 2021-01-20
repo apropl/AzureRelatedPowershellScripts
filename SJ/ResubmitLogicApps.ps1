@@ -27,10 +27,5 @@
 ##Config ABOVE!
 #################################################################################
 
-$CurrentPath = Get-Location
-cd $PSScriptRoot
-
 #Execute script
-./Resources/ResubmitLogicApps/Resubmit.ps1 $subscriptionName $subscriptionId $resourceGroupName $logicAppName $status $startDateTime $endDateTime $sendmessage
-
-cd $CurrentPath
+. "$PSScriptRoot\Resources\ResubmitLogicApps\Resubmit.ps1" $subscriptionName $subscriptionId $resourceGroupName $logicAppName $status $startDateTime $endDateTime $sendmessage
